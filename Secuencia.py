@@ -6,6 +6,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+import scipy.io.wavfile as waves
+import sounddevice as sd
+import copy
 
 class Secuencia:
 
@@ -15,56 +18,10 @@ class Secuencia:
     #origen: entero
 
     def __init__(self,conjunto:list,origen:int) -> None|bool:
-        if conjunto==[] or conjunto==None or origen==-1:
+        if origen==-1:
             return None
         self.__conjunto=deque(conjunto)
         self.__origen=origen
-
-#se encarga de validar y analizar la secuencia introducida
-# y regresa la lista de la secuencia y la posicion de inicio que correspondera a la posicion de la lista
-    def validarSecuencia(self,cadena:str)->tuple:
-        #se filtran los caracteres de "0123456789,*"
-        sec=''.join(x for x in cadena if x in "0123456789*-,.")
-        aux_list=None
-        aux_list=sec.split(',')
-
-        if aux_list==[] or aux_list==None:
-            return None,-1
-        #print(aux_list)
-        #hasta este punto suponemos que todos los elementos de la secuencia son numeros
-        
-        check_origen=False #verificar que solo tendremos un solo origen
-
-        for s,i in zip(aux_list,range(len(aux_list))):
-
-            index=s.find('*')#detecta el origen
-            
-            if index !=-1:#no es de todo un numero
-                if len(s)>1 and check_origen==False:
-                    #La secuencia y el origen estan correcto, el origen es la posicion de la lista
-                    origen=aux_list.index(s)
-                    #se quita el *
-                    aux_list[i]=''.join(x for x in s if x in "0123456789-.")
-                    s=aux_list[i]
-                else:
-                    #el origen no esta bien definido,o se puso mas de 2 veces
-                    return None,-1
-            #es un numero
-            try:
-                if s.find('.')>=0:#es un float
-                    aux_list[i]=float(s)
-                elif s.find('/')>=0:#es una fraccion
-                    frac_list=s.split('/')
-                    aux_list[i]=frac_list[0]/frac_list[1]
-                    pass#por definir
-                else:#es un entero
-                    aux_list[i]=int(s)
-            except:
-                print("Error en la conversion de srt a numeros")
-                return None,-1
-
-        #la secuencia puede estar correcta 
-        return aux_list, origen
     
     #------Encapsulacion de los atributos
     @property
@@ -130,32 +87,35 @@ class Secuencia:
         #print(res)
         return Secuencia(list(res),self.origen)
 
-    def reflexion(self)->bool:
-        self.conjunto.reverse()
-        self.origen=len(self.conjunto)-self.origen-1
-        #print(self)
+    def reflexion(self)->Secuencia:
+        copia=copy.deepcopy(self)
+        copia.conjunto.reverse()
+        copia.origen=len(copia.conjunto)-copia.origen-1
+        
+        return copia
 
-    def desplazamiento(self,n0:int)->bool:
-        nuevo_origen=self.origen-n0
+    def desplazamiento(self,n0:int)->Secuencia:
+        copia=copy.deepcopy(self)
+        nuevo_origen=copia.origen-n0
 
         if nuevo_origen >= 0:
-            self.origen=nuevo_origen
+            copia.origen=nuevo_origen
 
-            if nuevo_origen < len(self.conjunto):
-                return True
+            if nuevo_origen < len(copia.conjunto):
+                return copia
             else:
                 #se agregan ceros faltantes a la derecha de la secuencia
-                for i in range(nuevo_origen-len(self.conjunto)+1):
-                    self.conjunto.append(0)
-                return True
+                for i in range(nuevo_origen-len(copia.conjunto)+1):
+                    copia.conjunto.append(0)
+                return copia
         else:
             #se agregan ceros faltantes a la Izquierda de la secuencia
             nuevo_origen=nuevo_origen*-1
 
             for i in range(nuevo_origen):
-                self.conjunto.appendleft(0)
-            self.origen=0
-            return True
+                copia.conjunto.appendleft(0)
+            copia.origen=0
+            return copia
 
         return False
         
@@ -262,3 +222,8 @@ class Secuencia:
         x = np.arange(0,len(self.conjunto),1)
         y = self.conjunto
         return x,y
+
+    def reproduceAudio(self):
+        fs=44100
+        sd.play(self.conjunto,fs)
+        sd.wait()

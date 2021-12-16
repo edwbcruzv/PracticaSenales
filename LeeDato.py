@@ -1,13 +1,13 @@
 import numpy as np
+import sounddevice as sd
+from datetime import datetime
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy import signal
 import scipy.io.wavfile as waves
 import scipy.fftpack as fourier
 from time import *
-import winsound
-import sys
-import 
+import os
 
 class Microfono:
 
@@ -15,7 +15,17 @@ class Microfono:
         pass
 
     def grabar(self):
-       
+        fs=44100
+        duration = 4  # seconds
+        print("Grabando...")
+        myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
+        sd.wait()
+        print("Listo...")
+        nombre_grabacion="rec"+datetime.today().strftime('%Y-%m-%d_%H:%M')+".wav"
+        waves.write(nombre_grabacion,fs,myrecording)
+
+        #return os.path.abspath(nombre_grabacion)
+        return nombre_grabacion
 
 
 class Audio():
@@ -35,20 +45,30 @@ class Audio():
         self.der=self.datos[:, 1]
 
     #se lee el audio y se muestra en una grafica
-    def audio(self,ruta):
+    def mostrarGrafica(self):
 
-        time = np.linspace(0., self.length, self.datos.shape[0])
-        plt.plot(time,self.izq, label="Left channel")
-        plt.plot(time,self.der, label="Right channel")
+        self.time = np.linspace(0., self.length, self.datos.shape[0])
+        plt.plot(self.time,self.izq, label="Left channel")
+        plt.plot(self.time,self.der, label="Right channel")
         plt.legend()
         plt.xlabel("Time [s]")
         plt.ylabel("Amplitude")
         plt.show()
 
+    def reproducir(self):
+        fs=44100
+        sd.play(self.datos,fs)
+        sd.wait()
     
+    def coordenadas(self):
+        return self.time,self.der
+
 
 
 if __name__=='__main__':
-    dato=Audio("Vocales.wav")
+    entrada=Microfono()
+    dato=Audio(entrada.grabar())
+    dato.mostrarGrafica()
+    dato.reproducir()
 
 

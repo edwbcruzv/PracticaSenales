@@ -6,14 +6,10 @@ from matplotlib.figure import Figure
 import sys
 import os
 from Interfaz.Interfaz import Ui_Form
+from LeeDato import *
 from Secuencia import Secuencia
-from LeeDato import Dato
+from LeeDato import Microfono
 
-
-#audio=Dato("Vocales.wav")  #para leer un audio
-
-x=Secuencia([2,-1,4,0.5,2,-1,3],3)
-h=Secuencia([1,4,6,0,-0.25,1],1)
 
 class Ventana(QtWidgets.QWidget):
 
@@ -22,10 +18,20 @@ class Ventana(QtWidgets.QWidget):
         super(Ventana,self).__init__(parent)
         self.ui=Ui_Form()
         self.ui.setupUi(self)
-        self.ruta_audio1=""
-        self.ruta_audio2=""
 
-        ##Graficas
+        # Microfono
+        self.microfono=Microfono()
+        
+        # Audios
+        self.audio1=None
+        self.audio2=None
+
+        # Secuencias
+        self.Sec_1=None
+        self.Sec_2=None
+        self.Res=None
+
+        # Graficas
         self.fig_Sec1=FigureCanvas(Figure())
         self.fig_Sec2=FigureCanvas(Figure())
         self.fig_res=FigureCanvas(Figure())
@@ -59,12 +65,11 @@ class Ventana(QtWidgets.QWidget):
         self.fig_res.draw()
 
 
-
-
         self.ui.pushButton_Calcular.clicked.connect(self.seleccionarOperacion)
 
         self.ui.pushButton_Audio1.clicked.connect(self.capturarAudio1)
         self.ui.pushButton_Audio2.clicked.connect(self.capturarAudio2)
+        self.ui.pushButton_ReproducirRespuesta.clicked.connect(self.reproduceRespuesta)
 
 #dependiendo de lo que ingrese el usuario en la interfaz,el checked
 #abrira la opcion correspondiente y antes de pasar a la operacion  realizara la
@@ -88,172 +93,186 @@ class Ventana(QtWidgets.QWidget):
 
         if self.ui.radioButton_Suma.isChecked():
             print("se selecciono suma")
-            S1,S2=self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x1,y1=S1.coordenadas()
-            x2,y2=S1.coordenadas()
+            self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x1,y1=self.Sec_1.coordenadas()
+            x2,y2=self.Sec_2.coordenadas()
             self.fig_Sec1.axes.plot(x1,y1)
             self.fig_Sec2.axes.plot(x2,y2)
-            res=S1.suma(S2)
-            print(res)
-            x,y=res.coordenadas()
+            self.Res=self.Sec_1.suma(self.Sec_2)
+            #print(res)
+            x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
 
 
         elif self.ui.radioButton_Resta.isChecked():
             print("se selecciono resta")
-            S1,S2=self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x1,y1=S1.coordenadas()
-            x2,y2=S1.coordenadas()
+            self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x1,y1=self.Sec_1.coordenadas()
+            x2,y2=self.Sec_2.coordenadas()
             self.fig_Sec1.axes.plot(x1,y1)
             self.fig_Sec2.axes.plot(x2,y2)
-            res=S1.resta(S2)
-            print(res)
-            x,y=res.coordenadas()
+            self.Res=self.Sec_1.resta(self.Sec_2)
+            #print(res)
+            x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
 
         elif self.ui.radioButton_Multiplicacion.isChecked():
             print("se selecciono multiplicacion")
-            S1,S2=self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x1,y1=S1.coordenadas()
-            x2,y2=S1.coordenadas()
+            self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x1,y1=self.Sec_1.coordenadas()
+            x2,y2=self.Sec_2.coordenadas()
             self.fig_Sec1.axes.plot(x1,y1)
             self.fig_Sec2.axes.plot(x2,y2)
-            res=S1.multiplicar(S2)
-            print(res)
-            x,y=res.coordenadas()
+            self.Res=self.Sec_1.multiplicar(self.Sec_2)
+            #print(res)
+            x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
 
         elif self.ui.radioButton_Reflexion.isChecked():
             print("se selecciono reflexion")
-            S=self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x,y=S.coordenadas()
+            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
-            S.reflexion()
-            print(S)
-            x,y=S.coordenadas()
+            self.Res=self.Sec_1.reflexion()
+            #print(S)
+            x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
 
         elif self.ui.radioButton_Desplazamiento.isChecked():
             print("se selecciono desplazamiento")
-            S=self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x,y=S.coordenadas()
+            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             n0=self.ui.spinBox_n0.value()
-            S.desplazamiento(n0)
+            self.Res=self.Sec_1.desplazamiento(n0)
             print("n0:",n0)
-            print(S)
-            x,y=S.coordenadas()
+            #print(S)
+            x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
-
+            
         elif self.ui.radioButton_Diezmacion.isChecked():
             print("se selecciono diezmacion")
-            S=self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x,y=S.coordenadas()
+            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             k=self.ui.spinBox_KDiezm.value()
             print("k:",k)
-            res=S.diezmacion(k)
-            print(res)
-            x,y=res.coordenadas()
+            self.Res=self.Sec_1.diezmacion(k)
+            #print(res)
+            x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
+            
 
         elif self.ui.radioButton_Interpolacion.isChecked():
             print("se selecciono interpolacion")
-            S=self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x,y=S.coordenadas()
+            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             tipo_inter=self.ui.comboBox_Interpolaciones.currentIndex()
             k=self.ui.spinBox_KInterp.value()
             print("k:",k)
+
             if tipo_inter==0:# A Cero
-                res=S.interpolacionCero(k)
-                print(res)
-                x,y=res.coordenadas()
+                self.Res=self.Sec_1.interpolacionCero(k)
+                #print(res)
+                x,y=self.Res.coordenadas()
                 self.fig_res.axes.plot(x,y)
+
             elif tipo_inter==1:# Escalon
-                res=S.interpolacionEscalon(k)
-                print(res)
-                x,y=res.coordenadas()
+                self.Res=self.Sec_1.interpolacionEscalon(k)
+                #print(res)
+                x,y=self.Res.coordenadas()
                 self.fig_res.axes.plot(x,y)
+
             elif tipo_inter==2:# Lineal, pendiente
                 # res=S.interpolacionLineal(k)
                 # print(res)
                 # x,y=res.coordenadas()
                 # self.fig_res.axes.plot(x,y)
                 pass
+
             else:
                 print("No se a seleccionado el tipo de interpolacion")
 
-
-
-
         elif self.ui.radioButton_Convolucion.isChecked():
             print("se selecciono convolucion")
-            S1,S2=self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
-            x1,y1=S1.coordenadas()
-            x2,y2=S1.coordenadas()
+            self.capturarDatos(2)#lectura de datos, el numero son la cantidad de secuencias a recibir
+            x1,y1=self.Sec_1.coordenadas()
+            x2,y2=self.Sec_2.coordenadas()
             self.fig_Sec1.axes.plot(x1,y1)
             self.fig_Sec2.axes.plot(x2,y2)
 
         else:
             self.ui.label_Status.setText("No ha seleccionado la operacion")
-
+        
 
         self.fig_Sec1.draw()
         self.fig_Sec2.draw()
         self.fig_res.draw()
 
+    def reproduceRespuesta(self):
+        try:
+            self.Res.reproduceAudio()
+
+        except Exception as e:
+            print("no hay respuesta,"+str(e))
+
 #al escojer la operacion a realizar se capturan las secuencias o audios introducido,
 #dando la prioridad a la secuencia en texto y si este no se ingreso se busca el archivo .wav
     def capturarDatos(self,num_sec:int)->tuple:
+        #se almacenan las secuencias antes de crear el objeto
         list_Sec_1=None
         list_Sec_2=None
+        del self.Res
+        self.Res=None
 
-        cad1=self.ui.textEdit_Secuencia1.toPlainText()#Secuencia1 {2,6,4,7,9,2,1,4,8,3*,6,5,4,7,8,2,1}
-        cad1="{1,4*,6,0,-0.25,1}"
-        #cad1="{2,-1,4,*0.5,2,-1,3}"
+        cad1=self.ui.textEdit_Secuencia1.toPlainText() # entrada de secuencia por caracteres
 
-        #por defecto se leera la primera secuencia introducida
+        #por defecto se leera la primera secuencia introducida----------------------------------------
         if cad1=="":
             #si no hay secuencia, entonces hay audio
-            if self.ruta_audio1!="":
-                #dato=Dato(self.ruta_audio1)#procesar audio a secuencia
-                pass
+            if self.Sec_1!=None:
+                return True
             else:
                 self.ui.label_Status.setText("Ingrese una secuencia o un audio")
+                return False
         else:
             #procesa verifica la sintaxis de la secuencia introducida y se crea el objeto Sentencia
             list_Sec_1,origen1=self.validarSecuencia(cad1)
             if origen1==-1:
+                #se escribio mal la secuencia
                 self.ui.label_Status.setText("No esta definido la secuencia 1")
-                return
+                return False
             print("Sec1:",list_Sec_1,origen1)
-            Sec_Obj_1=Secuencia(list_Sec_1,origen1)
+            self.Sec_1=Secuencia(list_Sec_1,origen1)
 
-        #en caso de que la operacion requiera dos secuencias se lee la segunda que falta
+        #en caso de que la operacion requiera dos secuencias se lee la segunda que falta----------------
         if num_sec==2:
-            cad2=self.ui.textEdit_Secuencia2.toPlainText()#Secuencia2 {5,8,4,9,*3,1,2,5,4,7,8}
-            cad2="{2,-1,4,*0.5,2,-1,3}"
+            cad2=self.ui.textEdit_Secuencia2.toPlainText() # entrada de secuencia por caracteres
+            
             if cad2=="":
                 #si no hay secuencia, entonces hay audio
-                if self.ruta_audio2!="":
-                    #dato=Dato(self.ruta_audio2)#procesar audio a secuencia
-                    pass
+                if self.Sec_2!=None:
+                    return True
                 else:
-                    self.ui.label_Status.setText("Falta ingresar el audio o la secuencia 2")
+                    self.ui.label_Status.setText("Falta ingresar el audio 2 o la secuencia 2")
+                    return False
             else:
                 #procesa verifica la sintaxis la secuencia introducida y se crea el objeto Secuencia
                 list_Sec_2,origen2=self.validarSecuencia(cad2)
                 if origen1==-1:
+                    #se escribio mal la secuencia
                     self.ui.label_Status.setText("No esta bien definido la secuencia 2")
-                    return
-                print("Sec2:",list_Sec_2,origen2)
-                Sec_Obj_2=Secuencia(list_Sec_2,origen2)
-            #Regresan 2 Secuencias
-            return Sec_Obj_1,Sec_Obj_2
+                    return False
 
-        #Regresa 1 Secuencia
-        return Sec_Obj_1
+                print("Sec2:",list_Sec_2,origen2)
+                self.Sec_2=Secuencia(list_Sec_2,origen2)
+
+            #Existen 2 datos para trabajar
+            return True
+
+        #Existe 1 dato para trabajar
+        return True
 
 #se encarga de validar y analizar la secuencia introducida
 # y regresa la lista de la secuencia y la posicion de inicio que correspondera a la posicion de la lista
@@ -303,16 +322,51 @@ class Ventana(QtWidgets.QWidget):
 
 
 #Se Escoje el audio1 a analizar
-    def capturarAudio1(self):
-        self.cwd = os.getcwd()# ruta de la ejecucion del programa
-        self.ruta_audio1, selected_filter=QFileDialog.getOpenFileName(self,"seleccionar audio",self.cwd,"Text Files (*.wav)")
-        self.ui.label_RutaAudio1.setText(self.ruta_audio1)
-#Se Escoje el audio2 a analizar
-    def capturarAudio2(self):
-        self.cwd = os.getcwd()# ruta de la ejecucion del programa
-        self.ruta_audio2, selected_filter=QFileDialog.getOpenFileName(self,"seleccionar audio",self.cwd,"Text Files (*.wav)")
-        self.ui.label_RutaAudio2.setText(self.ruta_audio2)
+    def capturarAudio1(self)->Audio:
+        self.ui.label_RutaAudio1.setText("Grabando...")
+        self.ruta_audio1=self.microfono.grabar() #se da por hecho que siempre se grabara un audio
+        #self.ruta_audio1, selected_filter=QFileDialog.getOpenFileName(self,"seleccionar audio",self.cwd,"Text Files (*.wav)")
+        self.ui.label_RutaAudio1.setText(self.ruta_audio1) #se mostrara la ruta del audio grabado
+        #se procesara el audio intoducido para obtner la grafica y la secuencia
+        try:
+            # audio grabado
+            self.fig_Sec1.axes.clear()
+            self.fig_Sec1.axes.set_xlabel('eje X')
+            self.fig_Sec1.axes.set_ylabel('eje Y')
+            self.fig_Sec1.axes.set_title('Secuencia 1')
+            self.audio1=Audio(self.ruta_audio1)# ruta del audio
+            self.Sec_1=Secuencia(self.audio1.der,0) # convirtiendolo a secuencia
+            x1,y1=self.Sec_1.coordenadas()
+            self.fig_Sec1.axes.plot(x1,y1) #datos para graficar
+            self.fig_Sec1.draw()
+        
+        except Exception as e:
+            self.audio1=None
+            self.ui.label_RutaAudio1.setText("Error al grabar audio, "+str(e))
 
+
+#Se Escoje el audio2 a analizar
+    def capturarAudio2(self)->Audio:
+        self.ui.label_RutaAudio2.setText("Grabando...")
+
+        
+        self.ruta_audio2=self.microfono.grabar() #se da por hecho que siempre se grabara un audio
+        #self.ruta_audio2, selected_filter=QFileDialog.getOpenFileName(self,"seleccionar audio",self.cwd,"Text Files (*.wav)")
+        self.ui.label_RutaAudio2.setText(self.ruta_audio2) #se mostrara la ruta del audio grabado
+        #se procesara el audio intoducido para obtner la grafica y la secuencia
+        try:#audio grabado
+            self.fig_Sec2.axes.clear()
+            self.fig_Sec2.axes.set_xlabel('eje X')
+            self.fig_Sec2.axes.set_ylabel('eje Y')
+            self.fig_Sec2.axes.set_title('Secuencia 2')
+            self.audio2=Audio(self.ruta_audio2)# ruta del audio
+            self.Sec_2=Secuencia(self.audio2.der,0) # convirtiendolo a secuencia
+            x2,y2=self.Sec_2.coordenadas()
+            self.fig_Sec2.axes.plot(x2,y2) #datos para graficar
+            self.fig_Sec2.draw()
+        except Exception as e:
+            self.audio2=None
+            self.ui.label_RutaAudio2.setText("Error al grabar audio, "+str(e))
 
 
 ##*****INICIO DE TODO EL PROGRAMA

@@ -1,4 +1,3 @@
-import telegram
 ##conexion con la interfaz grafica comando>   pyuic5 -x Interfaz.ui -o Interfaz.py
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *

@@ -58,8 +58,13 @@ class Secuencia:
 
         # print("Alineacion Final:")
         # print(self)
-        # print(secuencia)        
+        # print(secuencia)       
 
+    def amplificacion(self,a:int|float)->Secuencia:
+        aux_list=[]
+        for elem in  self.conjunto:
+            aux_list.append(elem*a)
+        return Secuencia(aux_list,self.origen)
 
     #realiza la operacion de suma con la secuencia que regrese como parametro
     def suma(self,secuencia:Secuencia)->Secuencia:

@@ -167,7 +167,7 @@
      <x>570</x>
      <y>40</y>
      <width>341</width>
-     <height>301</height>
+     <height>321</height>
     </rect>
    </property>
    <property name="font">
@@ -181,8 +181,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>210</y>
+      <x>20</x>
+      <y>260</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -194,8 +194,8 @@
    <widget class="QSpinBox" name="spinBox_n0">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>120</y>
+      <x>50</x>
+      <y>170</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -210,8 +210,8 @@
    <widget class="QSpinBox" name="spinBox_KDiezm">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>160</y>
+      <x>50</x>
+      <y>210</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -226,8 +226,8 @@
    <widget class="QRadioButton" name="radioButton_Diezmacion">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>160</y>
+      <x>170</x>
+      <y>210</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -240,7 +240,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>80</y>
+      <y>60</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -252,8 +252,8 @@
    <widget class="QSpinBox" name="spinBox_KInterp">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>210</y>
+      <x>50</x>
+      <y>260</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -268,8 +268,8 @@
    <widget class="QRadioButton" name="radioButton_Interpolacion">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>210</y>
+      <x>170</x>
+      <y>260</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -281,8 +281,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>120</y>
+      <x>10</x>
+      <y>170</y>
       <width>31</width>
       <height>21</height>
      </rect>
@@ -321,7 +321,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>60</y>
       <width>95</width>
       <height>20</height>
      </rect>
@@ -333,8 +333,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>160</y>
+      <x>20</x>
+      <y>210</y>
       <width>21</width>
       <height>21</height>
      </rect>
@@ -346,8 +346,8 @@
    <widget class="QRadioButton" name="radioButton_Desplazamiento">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>120</y>
+      <x>170</x>
+      <y>170</y>
       <width>151</width>
       <height>20</height>
      </rect>
@@ -361,7 +361,7 @@
      <rect>
       <x>110</x>
       <y>30</y>
-      <width>95</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
@@ -372,8 +372,8 @@
    <widget class="QComboBox" name="comboBox_Interpolaciones">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>240</y>
+      <x>200</x>
+      <y>290</y>
       <width>91</width>
       <height>22</height>
      </rect>
@@ -398,7 +398,7 @@
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>80</y>
+      <y>60</y>
       <width>71</width>
       <height>22</height>
      </rect>
@@ -418,6 +418,99 @@
       <string>Periodica</string>
      </property>
     </item>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_Amplificacion">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>90</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Amplificacion</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>A =</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_AAmplificacion">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>90</y>
+      <width>61</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>A =</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_Atenuacion">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>130</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Atenuacion</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="doubleSpinBox_AAtenuacion">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>130</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="decimals">
+     <number>5</number>
+    </property>
+    <property name="minimum">
+     <double>0.000010000000000</double>
+    </property>
+    <property name="maximum">
+     <double>0.999990000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.000001000000000</double>
+    </property>
+    <property name="value">
+     <double>0.500000000000000</double>
+    </property>
    </widget>
   </widget>
   <widget class="QLabel" name="label_Status">
@@ -510,8 +603,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>948</x>
-     <y>210</y>
+     <x>684</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>379</x>
@@ -526,8 +619,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>981</x>
-     <y>250</y>
+     <x>890</x>
+     <y>229</y>
     </hint>
     <hint type="destinationlabel">
      <x>420</x>
@@ -542,8 +635,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>964</x>
-     <y>301</y>
+     <x>860</x>
+     <y>269</y>
     </hint>
     <hint type="destinationlabel">
      <x>448</x>
@@ -558,8 +651,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>992</x>
-     <y>349</y>
+     <x>860</x>
+     <y>319</y>
     </hint>
     <hint type="destinationlabel">
      <x>441</x>
@@ -574,8 +667,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1025</x>
-     <y>208</y>
+     <x>684</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>676</x>
@@ -590,8 +683,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1045</x>
-     <y>252</y>
+     <x>890</x>
+     <y>229</y>
     </hint>
     <hint type="destinationlabel">
      <x>699</x>
@@ -606,8 +699,8 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1019</x>
-     <y>303</y>
+     <x>860</x>
+     <y>269</y>
     </hint>
     <hint type="destinationlabel">
      <x>679</x>
@@ -622,12 +715,76 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1027</x>
-     <y>353</y>
+     <x>860</x>
+     <y>319</y>
     </hint>
     <hint type="destinationlabel">
      <x>693</x>
      <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_Amplificacion</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>textEdit_Secuencia2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>756</x>
+     <y>137</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>176</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_Atenuacion</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>textEdit_Secuencia2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>796</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_Amplificacion</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButton_Audio2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>774</x>
+     <y>141</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_Atenuacion</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButton_Audio2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>814</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>122</x>
+     <y>322</y>
     </hint>
    </hints>
   </connection>

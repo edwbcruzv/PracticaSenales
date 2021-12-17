@@ -94,8 +94,28 @@ class Ventana(QtWidgets.QWidget):
         del self.Res
         self.Res=None
 
-        if self.ui.radioButton_Suma.isChecked() and self.capturarDatos(2):
-            print("se selecciono suma")
+        if self.ui.radioButton_Amplificacion.isChecked() and self.capturarDatos(1):
+            print("se selecciono Amplificacion")
+            a=self.ui.spinBox_AAmplificacion.value()
+            print("A:",a)
+            x,y=self.Sec_1.coordenadas()
+            self.fig_Sec1.axes.plot(x,y)
+            self.Res=self.Sec_1.amplificacion(a)
+            x,y=self.Res.coordenadas()
+            self.fig_res.axes.plot(x,y)
+
+        elif self.ui.radioButton_Atenuacion.isChecked() and self.capturarDatos(1):
+            print("se selecciono Atenuacion")
+            a=self.ui.doubleSpinBox_AAtenuacion.value()
+            print("A:",a)
+            x,y=self.Sec_1.coordenadas()
+            self.fig_Sec1.axes.plot(x,y)
+            self.Res=self.Sec_1.amplificacion(a)
+            x,y=self.Res.coordenadas()
+            self.fig_res.axes.plot(x,y)
+
+        elif self.ui.radioButton_Suma.isChecked() and self.capturarDatos(2):
+            print("se selecciono Suma")
             #lectura de datos, el numero son la cantidad de secuencias a recibir
             x1,y1=self.Sec_1.coordenadas()
             x2,y2=self.Sec_2.coordenadas()
@@ -107,8 +127,7 @@ class Ventana(QtWidgets.QWidget):
 
 
         elif self.ui.radioButton_Resta.isChecked() and self.capturarDatos(2):
-            print("se selecciono resta")
-            
+            print("se selecciono Resta")
             x1,y1=self.Sec_1.coordenadas()
             x2,y2=self.Sec_2.coordenadas()
             self.fig_Sec1.axes.plot(x1,y1)
@@ -127,18 +146,16 @@ class Ventana(QtWidgets.QWidget):
             x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
 
-        elif self.ui.radioButton_Reflexion.isChecked():
+        elif self.ui.radioButton_Reflexion.isChecked() and self.capturarDatos(1):
             print("se selecciono reflexion")
-            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
             x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             self.Res=self.Sec_1.reflexion()
             x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
 
-        elif self.ui.radioButton_Desplazamiento.isChecked():
+        elif self.ui.radioButton_Desplazamiento.isChecked() and self.capturarDatos(1):
             print("se selecciono desplazamiento")
-            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
             x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             n0=self.ui.spinBox_n0.value()
@@ -147,9 +164,8 @@ class Ventana(QtWidgets.QWidget):
             x,y=self.Res.coordenadas()
             self.fig_res.axes.plot(x,y)
             
-        elif self.ui.radioButton_Diezmacion.isChecked():
+        elif self.ui.radioButton_Diezmacion.isChecked() and self.capturarDatos(1):
             print("se selecciono diezmacion")
-            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
             x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             k=self.ui.spinBox_KDiezm.value()
@@ -159,9 +175,8 @@ class Ventana(QtWidgets.QWidget):
             self.fig_res.axes.plot(x,y)
             
 
-        elif self.ui.radioButton_Interpolacion.isChecked():
+        elif self.ui.radioButton_Interpolacion.isChecked() and self.capturarDatos(2):
             print("se selecciono interpolacion")
-            self.capturarDatos(1)#lectura de datos, el numero son la cantidad de secuencias a recibir
             x,y=self.Sec_1.coordenadas()
             self.fig_Sec1.axes.plot(x,y)
             tipo_inter=self.ui.comboBox_Interpolaciones.currentIndex()
@@ -219,7 +234,8 @@ class Ventana(QtWidgets.QWidget):
         self.fig_res.draw()
 
         self.ui.label_Status.setText("Operacion Exitosa.")
-        print(self.Res)
+        if len(self.Res.conjunto) <=1000:
+            print(self.Res)
 
 #al escojer la operacion a realizar se capturan las secuencias o audios introducido,
 #dando la prioridad a la secuencia en texto y si este no se ingreso se busca el archivo .wav

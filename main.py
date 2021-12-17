@@ -235,7 +235,7 @@ class Ventana(QtWidgets.QWidget):
         #cad1="-10,4,0.25*,-1,0,2"
         #cad1="10,11,.5,-1,0,4*,1"
         #cad1="3,5,-6,*2,0,1"
-        cad1="1,3,5,7*,9"
+        #cad1="1,3,5,7*,9"
         #por defecto se leera la primera secuencia introducida----------------------------------------
         if cad1=="":
             #si no hay secuencia, entonces hay audio

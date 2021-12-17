@@ -1,4 +1,5 @@
 from collections import deque
+from time import sleep
 from typing import List
 import Secuencia
 import numpy as np
@@ -165,31 +166,200 @@ class Secuencia:
     def interpolacionLineal(self,k:int)->Secuencia:
 
         if k==1:
-            return
+            return copy.deepcopy(self)
 
-        res=self.interpolacionCero(k)
-        k=k-1
-        tam=len(res)
+        sec=self.interpolacionCero(k)
+        
+        tam=len(sec.conjunto)
         # ya se hizo una interpolacion a cero
         i=0
+        limite=0
         while i<tam:
-            i+=1 #se pasa al sig elemento del conjunto el cual debe de ser 0
+            if i+k<tam:
+                y0=sec.conjunto[i]
+                y1=sec.conjunto[i+k]
+            print(y0,y1)
+            if y1==y0:
+                factor=y1
+            elif y1>y0:
+                factor=y1-y0
+                factor=factor/k
+            else:
+                factor=y0-y1
+                factor=factor/k
 
-            for j in range(k): #k son los espacios que se agregan entre cada elemento
-                y1=res.conjunto[i+k]
-                y0=res.conjunto[i]
-                x1=i+1
-                x0=i
-                factor=y0+((y1-y0)/(x1-x0))
-                for j in range(k):
-                    res.append(factor)
-                    factor+=factor
-            i+=1
+            limite+=k
+            print("Factor:",factor," i:",i," limite:",limite)
+            for j in range(i+1,limite): #k son los espacios que se agregan entre cada elemento
+                print("j:",j)
+                sec.conjunto[j]=sec.conjunto[j-1]+factor
+            i+=k
+        return sec
 
-        return Secuencia(list(res),nuevo_origen)
+    def convolucionFinita(self,secuencia:Secuencia)->Secuencia:
+        #Suma por columnas
+        x=self.conjunto
+        h=secuencia.conjunto
+        tam_x=len(x)
+        tam_h=len(h)
 
-    def convolucion(self)->Secuencia:
-        pass
+        listaSumas=[]#sera una lista de listas
+        
+        for elem_h in h:
+            temp=[]
+            for elem_x in x:#cada elemento de H se multiplicara con todo el arreglo X
+                temp.append(elem_x*elem_h)
+            #ahora la lista se agrega a la lista de sumas
+            listaSumas.append(copy.deepcopy(temp))
+        
+        # for e in listaSumas:
+        #     print(e)
+
+        num_columnas=len(temp)
+        num_filas=len(listaSumas)
+        res=[]
+        nuevo_origen=self.origen+secuencia.origen
+        tam_res=tam_x+tam_h-1
+
+        fila_limit=0
+        columna_limit=0
+        while True:
+            suma=0
+            for f,c in zip(range(fila_limit,-1,-1),range(columna_limit,num_columnas)):
+                #sleep(1)
+                #print(f,c)
+                suma=suma+listaSumas[f][c]
+            res.append(suma)
+            if fila_limit<num_filas-1:#cada que la fila incrementa, la columna es cero
+                fila_limit+=1
+                columna_limit=0
+            else:#si la fila es es maxima la columna va incrementando
+                columna_limit+=1
+                if columna_limit==num_columnas:
+                    break
+        return Secuencia(res,nuevo_origen)
+
+
+    def convolucionCircular(self,secuencia:Secuencia)->Secuencia:
+        #Suma por columnas
+        x=self.conjunto
+        h=secuencia.conjunto
+        tam_x=len(x)
+        tam_h=len(h)
+
+        listaSumas=[]#sera una lista de listas
+        
+        for elem_h in h:
+            temp=[]
+            for elem_x in x:#cada elemento de H se multiplicara con todo el arreglo X
+                temp.append(elem_x*elem_h)
+            #ahora la lista se agrega a la lista de sumas
+            listaSumas.append(copy.deepcopy(temp))
+        
+        # for e in listaSumas:
+        #     print(e)
+
+        num_columnas=len(temp)
+        num_filas=len(listaSumas)
+        res=[]
+        nuevo_origen=self.origen+secuencia.origen
+        tam_res=tam_x+tam_h-1
+
+        fila_limit=0
+        columna_limit=0
+        while True:
+            suma=0
+            for f,c in zip(range(fila_limit,-1,-1),range(columna_limit,num_columnas)):
+                #sleep(1)
+                #print(f,c)
+                suma=suma+listaSumas[f][c]
+            res.append(suma)
+            if fila_limit<num_filas-1:#cada que la fila incrementa, la columna es cero
+                fila_limit+=1
+                columna_limit=0
+            else:#si la fila es es maxima la columna va incrementando
+                columna_limit+=1
+                if columna_limit==num_columnas:
+                    break
+        if tam_x>=tam_h:
+            N=tam_x
+        else: 
+            N=tam_h
+        #print(res)
+        Sec_Suma=[]
+        for i in range(N):
+            
+            if N+i<tam_res:
+                Sec_Suma.append(res[i]+res[N+i])
+            else:
+                Sec_Suma.append(res[i])
+
+        return Secuencia(Sec_Suma,nuevo_origen)
+
+
+    def convolucionPeriodica(self,secuencia:Secuencia)->Secuencia:
+        #Suma por columnas
+        x=self.conjunto
+        h=secuencia.conjunto
+        tam_x=len(x)
+        tam_h=len(h)
+
+        listaSumas=[]#sera una lista de listas
+        
+        for elem_h in h:
+            temp=[]
+            for elem_x in x:#cada elemento de H se multiplicara con todo el arreglo X
+                temp.append(elem_x*elem_h)
+            #ahora la lista se agrega a la lista de sumas
+            listaSumas.append(copy.deepcopy(temp))
+        
+        # for e in listaSumas:
+        #     print(e)
+
+        num_columnas=len(temp)
+        num_filas=len(listaSumas)
+        res=[]
+        nuevo_origen=self.origen+secuencia.origen
+        tam_res=tam_x+tam_h-1
+
+        fila_limit=0
+        columna_limit=0
+        while True:
+            suma=0
+            for f,c in zip(range(fila_limit,-1,-1),range(columna_limit,num_columnas)):
+                #sleep(1)
+                #print(f,c)
+                suma=suma+listaSumas[f][c]
+            res.append(suma)
+            if fila_limit<num_filas-1:#cada que la fila incrementa, la columna es cero
+                fila_limit+=1
+                columna_limit=0
+            else:#si la fila es es maxima la columna va incrementando
+                columna_limit+=1
+                if columna_limit==num_columnas:
+                    break
+        if tam_x<=tam_h:
+            N=tam_x
+        else: 
+            N=tam_h
+        print(res)
+
+        Sec_Suma=[]
+        for c in range(N):
+            suma=0
+            i=c
+            for f in range(i,tam_res,N):
+                print(f)
+                if f<tam_res:
+                    suma+=res[f]
+                else:
+                    pass
+            
+            Sec_Suma.append(suma)
+
+        return Secuencia(Sec_Suma,nuevo_origen)
+
+    
     #contiene la informacion de la Secuencia
     def __str__(self) -> str:
         return str(list(self.conjunto))+","+str(self.origen)
@@ -219,7 +389,7 @@ class Secuencia:
         return canvas
 
     def coordenadas(self):
-        x = np.arange(0,len(self.conjunto),1)
+        x = np.arange(0,len(self.conjunto))/44100
         y = self.conjunto
         return x,y
 

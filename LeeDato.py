@@ -61,7 +61,9 @@ class Audio():
         sd.wait()
     
     def coordenadas(self):
-        return self.time,self.der
+        x = np.arange(0,len(self.der))/44100
+        y = self.der
+        return x,y
 
 
 

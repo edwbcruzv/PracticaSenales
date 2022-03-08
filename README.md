@@ -1,5 +1,7 @@
 # PracticaSenales
 
+MAteria de señales en ESCOM IPN
+
 ### *Este programa se creo en Python, usando los modulos princilapes como:*
 - _[Scipy](https://scipy.org/)_
 - _[Matplotlib](https://matplotlib.org/)_

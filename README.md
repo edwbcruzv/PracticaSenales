@@ -1,6 +1,23 @@
 # PracticaSenales
 
-MAteria de señales en ESCOM IPN
+Materia de señales en ESCOM IPN
+
+Esta practica realiza las operaciones basicas de las secuencias y usando voces:
+- Amplificacion.
+- Suma.
+- Resta.
+- Multiplicacion.
+- Reflexion.
+- Desplazamiento.
+- Diezmacion.
+- interpolacion.
+    - Cero.
+    - Escalon.
+    - Lineal.
+- Convolucion
+    - Finita.
+    - Circular.
+    - Periodica.
 
 ### *Este programa se creo en Python, usando los modulos princilapes como:*
 - _[Scipy](https://scipy.org/)_
@@ -8,8 +25,8 @@ MAteria de señales en ESCOM IPN
 - _~~[Numpy](https://numpy.org/)~~_ *Instalado pero no usado, por ahora :)*
 
 ## Interfaz Grafica
-
-se uso pyqt5 y qt designer para crear la interfas y poder conectaros a los scrips creados
+El Programa fue hecho en windows 10 y entregados en Wondows 10.
+Se uso pyqt5 y qt designer para crear la interfas y poder conectaros a los scrips creados
 [Documentacionde Qt designer](https://doc.qt.io/) y [todas als clases](https://doc.qt.io/qt-5.15/classes.html).
 
 [Descarga de qt designer](https://build-system.fman.io/qt-designer-download)
@@ -51,11 +68,6 @@ deactivate
 **Para ello se necesita correr el `main.py` y se desplegara la interfaz grafica**
 
 
-
-
 ## Anexos
 
-#### Proceso de reconocer si es la vos de Hombre o Mujer
-    La frecuencia media de la voz masculina es de 106 Hz y con un rango de 77 Hz a 482 Hz.
-    En cuanto a la voz femenina su frecuencia es de 193 Hz, con un rango de 137 Hz a 634 Hz. 
 

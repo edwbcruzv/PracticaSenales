@@ -1,6 +1,6 @@
 # PracticaSenales
 
-Materia de señales en ESCOM IPN
+Materia de señales cursada con Jacqueline Arzate Gordillo en ESCOM IPN
 
 Esta practica realiza las operaciones basicas de las secuencias y usando voces:
 - Amplificacion.

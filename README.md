@@ -45,7 +45,7 @@ virtualenv venv
 ```
 source venv/Scripts/activate
 ```
-- **Ejemplo de como debera de verse**
+- **Ejemplo de como debe verse**
 ```
 (venv) 
 Muerto@DESKTOP-8MA1RTD MINGW64 ~/Documents/VS/PracticaSenales (main)

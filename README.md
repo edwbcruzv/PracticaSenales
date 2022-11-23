@@ -25,8 +25,8 @@ Esta practica realiza las operaciones basicas de las secuencias y usando voces:
 - _~~[Numpy](https://numpy.org/)~~_ *Instalado pero no usado, por ahora :)*
 
 ## Interfaz Grafica
-El Programa fue hecho en windows 10 y entregados en Wondows 10.
-Se uso pyqt5 y qt designer para crear la interfas y poder conectaros a los scrips creados
+El Programa fue hecho y entregado en Windows 10.
+Se uso pyqt5 y qt designer para crear la interfaz y poder conectarlos a los scrips creados
 [Documentacionde Qt designer](https://doc.qt.io/) y [todas als clases](https://doc.qt.io/qt-5.15/classes.html).
 
 [Descarga de qt designer](https://build-system.fman.io/qt-designer-download)
